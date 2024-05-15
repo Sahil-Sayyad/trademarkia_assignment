@@ -28,12 +28,13 @@ type Product struct {
 	Name string `gorm:"not null"`
 	Price float64 `gorm:"not null"`
 	ShoppingCategory string `gorm:"not null"`
+	Quantity    int     `gorm:"not null"`
 }
 
 type Order struct {
-	gorm.Model
-	UserID uint
-	ProductID uint
-	Quantity int 
-	TotalCost float64
+    gorm.Model
+    CustomerID uint
+    Customer   User
+    Products   []Product `gorm:"many2many:order_products;"`
+    TotalPrice float64
 }

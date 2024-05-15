@@ -8,23 +8,28 @@ import (
 
 func SetupRoutes(app *fiber.App){
 
+	// User-Side APIs:
 	api := app.Group("/api")
-
-	//User Sign-up
+	// POST /api/users/signup  (Create a new user)
 	api.Post("/users/sign-up", controller.CreateUser)
-	//User login 
+	// POST /api/users/login   (User authentication)
 	api.Post("/users/login", controller.Login)
+    // GET  /api/products      (Search for products)
+	api.Get("/products",controller.ListProduct)
+	// GET  /api/products/:id  (Get a specific product)
+	api.Get("/products/:id",controller.GetProduct)
 
+	// Admin-Side APIs:
 	admin := api.Group("/admin")
-
-	//Admin Sign-up
+	// POST   /api/admin/sign-up      (create a new admin)
 	admin.Post("/sign-up", controller.CreateAdmin)
-	//Admin Login
+	// POST   /api/admin/login        (login admin)
 	admin.Post("/login", controller.LoginAdmin)
-
-    
 	admin.Use(middleware.AdminauthMiddleware)
-    //Admin Adding Product (admin access only)
+	// POST   /api/admin/products     (Add a new product)
 	admin.Post("/products", controller.CreateProduct)
+	// PUT    /api/admin/products/:id (Update a product)
 	admin.Put("/products/:id", controller.UpdateProduct)
+	// DELETE /api/admin/products/:id (Remove a product)
+	admin.Delete("/products/:id", controller.DeleteProduct)
 }

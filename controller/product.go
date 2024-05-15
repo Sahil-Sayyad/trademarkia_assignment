@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// CreateProduct creates an product
 func CreateProduct(c *fiber.Ctx) error {
 
 	var product model.Product
@@ -17,7 +18,7 @@ func CreateProduct(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
-	//Create user in the database
+	//Create product in the database
 	result := database.DB.Create(&product)
 
 	if result.Error != nil {
@@ -78,4 +79,65 @@ func UpdateProduct(c *fiber.Ctx) error {
 		"message": "Product updated successfully",
 		"data":    existingProduct,
 	})
+}
+
+// DeleteProduct deletes product
+func DeleteProduct(c *fiber.Ctx) error {
+
+	//Parse product ID from URL parameters
+	productIDParam := c.Params("id")
+	productID, err := strconv.ParseUint(productIDParam, 10, 64)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid product Id "})
+	}
+
+	if err := database.DB.Delete(&model.Product{}, productID).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to delete product",
+		})
+	}
+
+	// Return success response
+	return c.JSON(fiber.Map{
+		"message": "Product delete successfully",
+	})
+}
+
+// ListProduct list all products
+func ListProduct(c *fiber.Ctx) error {
+
+	//Retrive all products from the database
+	var products []model.Product
+
+	if err := database.DB.Find(&products).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to fetch products",
+		})
+	}
+
+	// Return the list of products as JSON response
+	return c.JSON(products)
+}
+
+func GetProduct(c *fiber.Ctx) error {
+
+    id, err := c.ParamsInt("id") // Get the product ID from the URL parameter
+    if err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+            "error": "Invalid product ID",
+        })
+    }
+
+    var product model.Product
+    result := database.DB.First(&product, id) // Fetch the product from the database
+
+    if result.Error != nil {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+            "error": "Product not found",
+        })
+    }
+
+    // Return the product data with the updated price
+    return c.JSON(product) 
 }
