@@ -8,7 +8,6 @@ import (
 	"github.com/Sahil-Sayyad/Trademarkia/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 //DB is the global database connection
@@ -26,17 +25,7 @@ func ConnectDB(){
 		os.Getenv("DB_PORT"),
 	)
 
-    customLogger := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags),
-		logger.Config{
-			LogLevel: logger.Info,
-			Colorful: true,
-		},
-	)
-
-	db , err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: customLogger,
-	})
+	db , err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalf("Failed to connect to database : %v", err)
@@ -44,7 +33,7 @@ func ConnectDB(){
 
 	DB = db 
 
-	DB.AutoMigrate(&model.User{}, &model.Order{}) 
+	DB.AutoMigrate(&model.User{}, &model.Order{}, &model.Admin{}) 
 
 	
 	log.Println("Connected to database successfully")
