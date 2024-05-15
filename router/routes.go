@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/Sahil-Sayyad/Trademarkia/controller"
+	"github.com/Sahil-Sayyad/Trademarkia/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -20,6 +21,10 @@ func SetupRoutes(app *fiber.App){
 	admin.Post("/sign-up", controller.CreateAdmin)
 	//Admin Login
 	admin.Post("/login", controller.LoginAdmin)
-    //Admin Adding Product 
-	admin.Post("/products", controller.createProduct)
+
+    
+	admin.Use(middleware.AdminauthMiddleware)
+    //Admin Adding Product (admin access only)
+	admin.Post("/products", controller.CreateProduct)
+	admin.Put("/products/:id", controller.UpdateProduct)
 }

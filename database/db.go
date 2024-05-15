@@ -33,7 +33,7 @@ func ConnectDB(){
 
 	DB = db 
 
-	DB.AutoMigrate(&model.User{}, &model.Order{}, &model.Admin{}) 
+	DB.AutoMigrate(&model.User{}, &model.Order{}, &model.Admin{}, &model.Product{}) 
 
 	
 	log.Println("Connected to database successfully")
