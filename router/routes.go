@@ -12,4 +12,7 @@ func SetupRoutes(app *fiber.App){
 	//User Sign-up
 	api.Post("/users", controller.CreateUser)
 
+	//User login 
+	api.Post("/login", controller.Login)
+
 }
