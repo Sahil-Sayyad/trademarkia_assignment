@@ -67,7 +67,7 @@ func UpdateProduct(c *fiber.Ctx) error {
 	existingProduct.Name = updatedProduct.Name
 	existingProduct.Price = updatedProduct.Price
 	existingProduct.ShoppingCategory = updatedProduct.ShoppingCategory
-	
+	existingProduct.Quantity = updatedProduct.Quantity
 
 
 	// Save updated product to database
