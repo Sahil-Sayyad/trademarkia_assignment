@@ -62,7 +62,7 @@ Admin-Side APIs:
                 -Filter by product ID: /api/admin/orders?product_id=1
                 -Sort by total price (ascending): /api/admin/orders?sort_by=total_price&order_by=asc
 
-- GET    /api/admin/stats          (Get statistics on orders, inventory, etc.)
+- GET    /api/admin/stats          (Get statistics on orders, inventory)
 
         Stats on Orders and Inventory :
 
