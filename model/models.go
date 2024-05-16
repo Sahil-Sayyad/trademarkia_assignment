@@ -1,5 +1,11 @@
 package model
 
+/*
+	1.User
+	2.Admin
+	3.Product
+	4.Order
+*/
 import (
 	"gorm.io/gorm"
 )

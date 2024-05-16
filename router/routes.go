@@ -18,12 +18,10 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/products", controller.ListProduct)
 	// GET  /api/products/:id  (Get a specific product)
 	api.Get("/products/:id", controller.GetProduct)
-	// User auth middleware for user should be logged in.
-	api.Use(middleware.UserauthMiddleware)
 	// POST /api/orders        (Place an order)
-	api.Post("/orders", controller.CreateOrder)
+	api.Post("/orders",middleware.UserauthMiddleware, controller.CreateOrder)
 	// GET  /api/users/dashboard (View user's order history)
-	api.Get("/users/dashboard", controller.GetUserDashboard)
+	api.Get("/users/dashboard", middleware.UserauthMiddleware, controller.GetUserDashboard)
 
 	// Admin-Side APIs:
 	admin := api.Group("/admin")
@@ -31,7 +29,7 @@ func SetupRoutes(app *fiber.App) {
 	admin.Post("/sign-up", controller.CreateAdmin)
 	// POST   /api/admin/login        (login admin)
 	admin.Post("/login", controller.LoginAdmin)
-    // Admin auth middleware for admin access only 
+	// Admin auth middleware for admin access only
 	admin.Use(middleware.AdminauthMiddleware)
 	// POST   /api/admin/products     (Add a new product)
 	admin.Post("/products", controller.CreateProduct)
@@ -40,7 +38,7 @@ func SetupRoutes(app *fiber.App) {
 	// DELETE /api/admin/products/:id (Remove a product)
 	admin.Delete("/products/:id", controller.DeleteProduct)
 	// GET    /api/admin/orders       (Get all orders with filters/sorting)
-	admin.Get("/orders", controller.GetAdminOrders);
+	admin.Get("/orders", controller.GetAdminOrders)
 	// GET    /api/admin/stats        (Get statistics on orders, inventory)
-	admin.Get("/stats", controller.GetAdminStats);
+	admin.Get("/stats", controller.GetAdminStats)
 }

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Sahil-Sayyad/Trademarkia/database"
@@ -87,12 +88,17 @@ func DeleteProduct(c *fiber.Ctx) error {
 	//Parse product ID from URL parameters
 	productIDParam := c.Params("id")
 	productID, err := strconv.ParseUint(productIDParam, 10, 64)
-
+    
+	log.Println("id ", productID)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid product Id "})
 	}
+	var product model.Product
+	if err := database.DB.First(&product, productID).Error; err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Product not found"})
+	}
 
-	if err := database.DB.Delete(&model.Product{}, productID).Error; err != nil {
+	if err := database.DB.Delete(&product).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to delete product",
 		})
@@ -119,7 +125,7 @@ func ListProduct(c *fiber.Ctx) error {
 	// Return the list of products as JSON response
 	return c.JSON(products)
 }
-
+//Get a single product
 func GetProduct(c *fiber.Ctx) error {
 
     id, err := c.ParamsInt("id") // Get the product ID from the URL parameter

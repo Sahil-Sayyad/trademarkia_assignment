@@ -137,7 +137,7 @@ func LoginAdmin(c *fiber.Ctx) error {
 	}
 
 	//Generate JWT token
-	token, err := utils.GenerateToken(admin.ID)
+	token, err := utils.GenerateTokenAdmin(admin.ID)
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not generate token"})
@@ -159,15 +159,13 @@ func LoginAdmin(c *fiber.Ctx) error {
 // View user's order history
 func GetUserDashboard(c *fiber.Ctx) error {
 
-    // Get the authenticated user's ID from the context (using your auth middleware)
-    userID, ok := c.Locals("userID").(uint)
+    // Get the authenticated user's ID from the context
+    userID, ok := c.Locals("userID").(string)
     if !ok {
         return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
             "error": "Unauthorized",
         })
     }
-	log.Println("User id :", userID) 
-
 	var orders []model.Order
     result := database.DB.Preload("Products").Where("user_id = ?", userID).Find(&orders)
 
@@ -178,7 +176,6 @@ func GetUserDashboard(c *fiber.Ctx) error {
             "error": "Failed to fetch orders",
         })
     }
-	log.Println("Error fetching orders:", orders) 
 
     return c.JSON(orders) 
 }

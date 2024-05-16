@@ -1,6 +1,7 @@
 package middleware
 
 import (
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 )
@@ -8,10 +9,14 @@ import (
 var jwtKey = []byte("sahil")
 
 type CustomClaims struct {
-	UserID uint `json:"user_id"`
+	UserID string `json:"userId"`
 	jwt.StandardClaims
 }
 
+type CustomClaimsAdmin struct {
+	AdminID string `json:"adminId"`
+	jwt.StandardClaims
+}
 func UserauthMiddleware(c *fiber.Ctx) error {
 	var tokenString string
 
@@ -38,7 +43,6 @@ func UserauthMiddleware(c *fiber.Ctx) error {
 		c.Locals("userID", claims.UserID)
 		return c.Next()
 	}
-
 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid token"})
 }
 
@@ -53,7 +57,7 @@ func AdminauthMiddleware(c *fiber.Ctx) error {
 	if tokenString == "" {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Admin access only "})
 	}
-	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &CustomClaimsAdmin{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 
@@ -64,8 +68,8 @@ func AdminauthMiddleware(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid token"})
 	}
 
-	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
-		c.Locals("userID", claims.UserID)
+	if claims, ok := token.Claims.(*CustomClaimsAdmin); ok && token.Valid {
+		c.Locals("adminId", claims.AdminID)
 		return c.Next()
 	}
 
