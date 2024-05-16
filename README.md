@@ -34,7 +34,46 @@ demand and availability. <b>
 
 ## Usage API Documentation POSTMAN 
 <a href = "https://www.postman.com/research-specialist-63110380/workspace/trademarkia/collection/24358323-cfc4367c-4962-4059-8158-822d4b5ef3e7?action=share&creator=24358323"> <b>Link</b> </a>
+```
+API Structure : 
 
+User-Side APIs:
+
+- POST /api/users/signup          (Create a new user)
+- POST /api/users/login           (User authentication)
+- GET  /api/products              (Search for products)
+- GET  /api/products/:id          (Get a specific product)
+- POST /api/orders                (Place an order)
+- GET  /api/users/dashboard       (View user's order history)
+
+Admin-Side APIs:
+
+- POST   /api/admin/sign-up        (Add a new admin)
+- POST   /api/admin/login          (Admin authentication)
+- POST   /api/admin/products       (Add a new product)
+- PUT    /api/admin/products/:id   (Update a product)
+- DELETE /api/admin/products/:id   (Remove a product)
+- GET    /api/admin/orders         (Get all orders with filters/sorting)
+
+        filters and Sorting :
+
+                -Get all orders: /api/admin/orders
+                -Filter by user ID: /api/admin/orders?user_id=1
+                -Filter by product ID: /api/admin/orders?product_id=1
+                -Sort by total price (ascending): /api/admin/orders?sort_by=total_price&order_by=asc
+
+- GET    /api/admin/stats          (Get statistics on orders, inventory, etc.)
+
+        Stats on Orders and Inventory :
+
+                -Total Orders: Number of orders placed.
+                -Total Revenue: Total revenue generated from orders.
+                -Low Stock Products: Products with low inventory (quantity below a threshold).
+                -Total Users: Number of registered users.
+                -Recent Orders: A list of the most recent orders (you can adjust the Limit as needed).
+                -Average Order Value: Calculated by dividing total revenue by the number of orders.
+
+```
 ## Database Trigger:
 
 Dynamic Pricing Trigger 
