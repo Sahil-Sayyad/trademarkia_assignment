@@ -5,7 +5,6 @@ platform. This platform will feature dynamic pricing for products influenced by 
 demand and availability. <b> 
 
 ## Table of Contents
--  <b> [Features](#features)</b>
 -  <b> [Getting Started](#getting-started)</b>
 -  <b> [Tech Stack](#Tech-Stack) </b>
 -  <b> [Project Demo](#Project-Demo) </b>
