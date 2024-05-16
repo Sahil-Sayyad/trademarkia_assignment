@@ -21,7 +21,7 @@ demand and availability. <b>
 
 
 ### Prerequisites
-- <b>NMust Be Go Installed in your System.</b>
+- <b> Go Installed in your System.</b>
 
 ## Tech Stack
 
