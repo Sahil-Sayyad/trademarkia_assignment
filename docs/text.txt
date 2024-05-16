@@ -13,4 +13,19 @@ Admin-Side APIs:
 - PUT    /api/admin/products/:id   (Update a product)
 - DELETE /api/admin/products/:id   (Remove a product)
 - GET    /api/admin/orders         (Get all orders with filters/sorting)
+        Get all orders: /api/admin/orders
+        Filter by user ID: /api/admin/orders?user_id=123
+        Filter by product ID: /api/admin/orders?product_id=456
+        Filter by status: /api/admin/orders?status=shipped
+        Filter by date range: /api/admin/orders?start_date=2024-01-01&end_date=2024-05-15
+        Sort by total price (ascending): /api/admin/orders?sort_by=total_price&order_by=asc
+
 - GET    /api/admin/stats          (Get statistics on orders, inventory, etc.)
+
+        Total Orders: Number of orders placed.
+        Total Revenue: Total revenue generated from orders.
+        Orders by Status: Count of orders per status (e.g., "pending", "shipped", "completed").
+        Low Stock Products: Products with low inventory (quantity below a threshold).
+        Total Users: Number of registered users.
+        Recent Orders: A list of the most recent orders (you can adjust the Limit as needed).
+        Average Order Value: Calculated by dividing total revenue by the number of orders.
