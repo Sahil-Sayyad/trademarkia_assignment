@@ -32,7 +32,7 @@ demand and availability. <b>
 -  <b> 2. Authentication </b>
     <p>JWT: For implementing the authentication system and managing user sign-up and sign-in.</p>
 
-## API Documentation POSTMAN 
+## Usage API Documentation POSTMAN 
 <a href = "https://www.postman.com/research-specialist-63110380/workspace/trademarkia/collection/24358323-cfc4367c-4962-4059-8158-822d4b5ef3e7?action=share&creator=24358323"> <b>Link</b> </a>
 
 ## Database Trigger:
