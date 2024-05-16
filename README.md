@@ -21,7 +21,7 @@ demand and availability. <b>
 
 
 ### Prerequisites
-- <b> Go Installed in your System.</b>
+- <b> Go lang Must be Installed in your System.</b>
 
 ## Tech Stack
 
@@ -32,9 +32,40 @@ demand and availability. <b>
 -  <b> 2. Authentication </b>
     <p>JWT: For implementing the authentication system and managing user sign-up and sign-in.</p>
 
-## API Doc POSTMAN 
+## API Documentation POSTMAN 
 <a href = "https://www.postman.com/research-specialist-63110380/workspace/trademarkia/collection/24358323-cfc4367c-4962-4059-8158-822d4b5ef3e7?action=share&creator=24358323"> <b>Link</b> </a>
 
+## Database Trigger:
+
+Dynamic Pricing Trigger 
+
+```
+CREATE OR REPLACE FUNCTION update_dynamic_pricing()
+RETURNS TRIGGER AS $$
+DECLARE
+    current_quantity INT;
+    demand_factor    FLOAT; -- Calculate this based on recent sales.
+    availability_factor FLOAT;
+BEGIN
+
+    -- 1. Fetch the current quantity
+    SELECT quantity INTO current_quantity FROM products WHERE id = NEW.id; 
+
+    -- 2. Calculate availability factor (e.g., low stock = higher price)
+    availability_factor := 1.0 / (current_quantity + 1);
+
+    -- 3. Calculate the new dynamic price
+    NEW.price := NEW.price * (1 + demand_factor) * availability_factor; 
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER dynamic_pricing_trigger
+BEFORE UPDATE OF quantity ON products
+FOR EACH ROW
+EXECUTE FUNCTION update_dynamic_pricing();
+```
 ## Author
 
 
