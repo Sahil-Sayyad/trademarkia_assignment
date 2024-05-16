@@ -51,7 +51,7 @@ BEGIN
     -- 1. Fetch the current quantity
     SELECT quantity INTO current_quantity FROM products WHERE id = NEW.id; 
 
-    -- 2. Calculate availability factor (e.g., low stock = higher price)
+    -- 2. Calculate availability factor 
     availability_factor := 1.0 / (current_quantity + 1);
 
     -- 3. Calculate the new dynamic price
