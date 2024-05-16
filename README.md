@@ -26,7 +26,7 @@ demand and availability. <b>
 ## Tech Stack
 
 - <b> 1. Back-end </b>
-   <p>Go lang: For server-side development.
+   <p>Go lang: For server-side development.<br/>
       Go Fiber: As a framework to create the application's server-side routes and manage the HTTP requests and responses.
       PostgreSQL: As the RDBMS database to store and manage the  users, products, orders.</p>
 -  <b> 2. Authentication </b>
